@@ -1,8 +1,9 @@
 'use strict'
-
-const should = require('should')
+//  "test": "set NODE_ENV=test eslint bin server && nyc mocha --recursive test",
+require('should')
+const config= require('../../config')
 const request = require('supertest')
-const service = require('../../server/service')
+const service = require('../../server/service')(config)
 
 describe('The express service', () => {
   describe('GET/ foo', () => {
