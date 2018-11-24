@@ -8,6 +8,9 @@ const service = express()
 module.exports = (config) => {
 	const log= config.log()
 	service.get('/service/:location', (req, res) => {
+		if (req.get('X-SLACK-SERVICE-API-TOKEN') !== config.serviceAccessToken) {
+			return res.sendStatus(403)
+		}
 		request.get(
 			'https://maps.googleapis.com/maps/api/geocode/json?address=' +
       req.params.location +

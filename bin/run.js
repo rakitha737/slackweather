@@ -13,18 +13,18 @@ server.on('listening', function() {
 	log.info(`Slack-Weather is listening on port ${server.address().port}`)
 
 	const announce = () => {
-		request.put(
-			`http://127.0.0.1:3000/service/weather/${server.address().port}`,
-			(err, res) => {
+		request
+			.put(`http://127.0.0.1:3000/service/weather/${server.address().port}`)
+			.set('X-SLACK-SERVICE-API-TOKEN', config.serviceAccessToken)
+			.set('X-SLACK-BOT-API-TOKEN', config.slackBotApiToken)
+			.end((err, res) => {
 				if (err || !res) {
 					log.debug(err)
 					log.info('Error connecting to SlackBot Main')
-				}
-				else {
+				} else {
 					log.info(res.body)
 				}
-			}
-		)
+			})
 	}
 	announce()
 	setInterval(announce, 15 * 1000)
