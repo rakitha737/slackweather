@@ -1,4 +1,5 @@
 'use strict'
+
 //  "test": "set NODE_ENV=test eslint bin server && nyc mocha --recursive test",
 require('should')
 const config= require('../../config')
