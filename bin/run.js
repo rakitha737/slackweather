@@ -8,13 +8,15 @@ const log= config.log()
 
 const server = http.createServer(service)
 server.listen()
-
+const serverURL = process.env.SLACK_SERVER_URL
+	? process.env.SLACK_SERVER_URL
+	: 'http://127.0.0.1:3000'
 server.on('listening', function() {
 	log.info(`Slack-Weather is listening on port ${server.address().port}`)
 
 	const announce = () => {
 		request
-			.put(`http://127.0.0.1:3000/service/weather/${server.address().port}`)
+			.put(`${serverURL}/service/weather/${server.address().port}`)
 			.set('X-SLACK-SERVICE-API-TOKEN', config.serviceAccessToken)
 			.set('X-SLACK-BOT-API-TOKEN', config.slackBotApiToken)
 			.end((err, res) => {
